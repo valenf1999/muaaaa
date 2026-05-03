@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>A Surprise for Muthi!</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@600;700&display=swap" rel="stylesheet">
     <style>
@@ -10,8 +10,9 @@
             --primary-pink: #f4cfcc;
             --accent-red: #b55a5a;
             --text-gray: #333333; 
-            --gold: #ffd700;
         }
+
+        * { box-sizing: border-box; }
 
         body {
             background-color: var(--primary-pink);
@@ -20,17 +21,21 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
+            padding: 10px;
             font-family: 'Quicksand', sans-serif;
             font-weight: 700;
-            overflow: hidden;
+            overflow: hidden; /* Keeps hearts from creating scrollbars */
         }
 
+        /* Password Gate */
         #password-gate {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--primary-pink); z-index: 10000;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
+            padding: 20px; text-align: center;
         }
 
+        /* Gift Overlay */
         #gift-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--primary-pink); display: flex; flex-direction: column;
@@ -39,73 +44,112 @@
         }
 
         .gift-container { cursor: pointer; text-align: center; animation: bounce 2s infinite; }
-        .gift-box { font-size: 120px; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1)); }
-        .gift-text { font-family: 'Dancing Script', cursive; font-size: 2.2rem; color: var(--accent-red); margin-top: 20px; }
-        .click-hint { font-size: 0.9rem; color: #888; margin-top: 10px; text-transform: uppercase; letter-spacing: 2px; }
+        .gift-box { font-size: 80px; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1)); }
+        .gift-text { font-family: 'Dancing Script', cursive; font-size: 1.8rem; color: var(--accent-red); margin-top: 15px; padding: 0 10px; }
 
+        /* Main Container - Adjusted for Mobile */
         .container {
-            text-align: center; background: rgba(255, 255, 255, 0.95);
-            padding: 20px; border-radius: 30px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
-            width: 90%; max-width: 450px; height: 620px; position: relative;
-            backdrop-filter: blur(10px); z-index: 10; display: flex; flex-direction: column; justify-content: center;
+            text-align: center; 
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px; 
+            border-radius: 30px; 
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+            width: 100%; 
+            max-width: 400px; 
+            min-height: 550px;
+            max-height: 90vh; /* Prevents overflow on short phones */
+            position: relative;
+            backdrop-filter: blur(10px); 
+            z-index: 10; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center;
+            overflow: hidden;
         }
 
-        .step { display: none; animation: fadeIn 0.8s ease-in-out; height: 100%; overflow-y: auto; padding: 10px; }
-        .step::-webkit-scrollbar { width: 6px; }
-        .step::-webkit-scrollbar-thumb { background: var(--accent-red); border-radius: 10px; }
-        .step.active { display: block; }
+        .step { 
+            display: none; 
+            animation: fadeIn 0.8s ease-in-out; 
+            height: 100%; 
+            overflow-y: auto; 
+            padding: 5px; 
+        }
+        .step.active { display: flex; flex-direction: column; align-items: center; justify-content: center; }
 
-        .img-wrapper { width: 100%; max-width: 250px; margin: 0 auto 10px; cursor: pointer; }
-        .photo-frame { width: 100%; height: auto; max-height: 250px; object-fit: contain; border-radius: 15px; margin-bottom: 10px; }
-        .dance-img-large { width: 100%; max-height: 180px; border-radius: 15px; object-fit: contain; margin-bottom: 10px; }
-
-        h1 { font-family: 'Dancing Script', cursive; color: var(--accent-red); font-size: 2.5rem; margin: 5px 0; }
-        p { margin: 10px 0; line-height: 1.4; color: var(--text-gray); font-size: 1.1rem; }
+        /* Responsive Images */
+        .photo-frame { 
+            width: 100%; 
+            max-width: 280px; 
+            height: auto; 
+            max-height: 220px; 
+            object-fit: contain; 
+            border-radius: 15px; 
+            margin-bottom: 10px; 
+        }
         
+        .dance-img-large { 
+            width: 80%; 
+            max-height: 150px; 
+            border-radius: 12px; 
+            object-fit: contain; 
+            margin-bottom: 8px; 
+        }
+
+        h1 { font-family: 'Dancing Script', cursive; color: var(--accent-red); font-size: 2.2rem; margin: 5px 0; }
+        p { margin: 8px 0; line-height: 1.3; color: var(--text-gray); font-size: 1rem; }
+        
+        /* Treasure Zones */
         .treasure-area { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 50; }
         .touch-zone {
-            position: absolute; width: 55px; height: 55px; background: rgba(181, 90, 90, 0.3);
+            position: absolute; width: 50px; height: 50px; background: rgba(181, 90, 90, 0.3);
             border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center;
-            animation: pulse 2s infinite; pointer-events: auto; font-size: 1.8rem;
-        }
-
-        .floating-msg {
-            position: fixed; background: var(--accent-red); color: white; padding: 12px 25px;
-            border-radius: 30px; font-size: 1rem; pointer-events: none; z-index: 9999;
-            animation: floatUp 1.5s ease-out forwards; box-shadow: 0 4px 15px rgba(0,0,0,0.3); font-weight: 800;
+            animation: pulse 2s infinite; pointer-events: auto; font-size: 1.5rem;
         }
 
         .btn-main {
-            background: var(--accent-red); color: white; border: none; padding: 12px 30px;
-            border-radius: 50px; font-size: 1.1rem; cursor: pointer; margin: 10px 0;
-            font-weight: 700; box-shadow: 0 4px 10px rgba(181, 90, 90, 0.3);
+            background: var(--accent-red); color: white; border: none; padding: 12px 25px;
+            border-radius: 50px; font-size: 1rem; cursor: pointer; margin: 10px 0;
+            font-weight: 700; width: 80%; max-width: 200px;
         }
 
-        .heart-particle { position: fixed; top: -10%; font-size: 1.5rem; pointer-events: none; z-index: 1; animation: fall linear forwards; }
-        #secret-reveal { background: #eee; color: #888; padding: 12px; border-radius: 15px; cursor: pointer; text-align: center; border: 2px dashed var(--accent-red); margin: 5px 0; }
-        .rizz-text { font-family: 'Quicksand', sans-serif; font-size: 1.5rem; color: var(--accent-red); font-weight: 900; }
+        .floating-msg {
+            position: fixed; background: var(--accent-red); color: white; padding: 10px 20px;
+            border-radius: 20px; font-size: 0.9rem; pointer-events: none; z-index: 9999;
+            animation: floatUp 1.5s ease-out forwards; font-weight: 800;
+        }
 
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+        .heart-particle { position: fixed; top: -10%; font-size: 1.2rem; pointer-events: none; z-index: 1; animation: fall linear forwards; }
+        
+        /* Final Message Box */
+        .letter-box {
+            text-align: left; background: #fffdf5; padding: 15px; border-radius: 15px; 
+            border-left: 5px solid var(--accent-red); color: var(--text-gray); 
+            line-height: 1.5; font-size: 0.95rem; overflow-y: auto; max-height: 400px;
+        }
+
+        #secret-reveal { background: #eee; padding: 10px; border-radius: 12px; border: 2px dashed var(--accent-red); margin: 10px 0; }
+
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
         @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes pulse { 0% { transform: scale(1); } 70% { transform: scale(1.15); } 100% { transform: scale(1); } }
-        @keyframes floatUp { 0% { opacity: 0; transform: translate(-50%, 0); } 20% { opacity: 1; } 100% { opacity: 0; transform: translate(-50%, -70px); } }
+        @keyframes pulse { 0% { transform: scale(1); } 70% { transform: scale(1.1); } 100% { transform: scale(1); } }
+        @keyframes floatUp { 0% { opacity: 0; transform: translate(-50%, 0); } 20% { opacity: 1; } 100% { opacity: 0; transform: translate(-50%, -60px); } }
     </style>
 </head>
 <body>
 
 <div id="password-gate">
     <h1 style="color:var(--accent-red);">For Muthi ❤️</h1>
-    <input type="password" id="pass-input" placeholder="Enter Secret Code" style="padding:10px; border-radius:10px; border:2px solid var(--accent-red); margin-bottom:10px; text-align:center;">
+    <input type="password" id="pass-input" placeholder="Enter Secret Code" style="padding:12px; border-radius:10px; border:2px solid var(--accent-red); margin-bottom:15px; text-align:center; width: 80%; font-size: 16px;">
     <button class="btn-main" onclick="checkPassword()">Unlock</button>
-    <p id="error-msg" style="color:red; display:none;">Try again, love!</p>
+    <p id="error-msg" style="color:red; display:none; font-size: 0.9rem;">Try again, love!</p>
 </div>
 
 <div id="gift-overlay" style="display:none;">
     <div class="gift-container" onclick="openGift()">
         <div class="gift-box">🎁</div>
         <div class="gift-text">From Valen to my Muthi ❤️❤️</div>
-        <div class="click-hint">Click to open</div>
+        <p class="click-hint" style="font-size: 0.8rem; color: #888;">TAP TO OPEN</p>
     </div>
 </div>
 
@@ -113,14 +157,15 @@
     <div id="treasure-overlay" class="treasure-area"></div>
 
     <div class="step active" id="step0">
-        <div class="img-wrapper" onclick="toggleImage()">
+        <div class="img-wrapper" style="width: 100%; max-width: 200px;" onclick="toggleImage()">
             <img id="main-bear" src="https://media.tenor.com/vT9FIUfPKesAAAAj/sseeyall-bubu-dudu.gif" class="photo-frame">
         </div>
         <h1>For You...</h1>
-        <p>Find the 4 hidden treasures!(Don't touch Dudu ehhh)</p>
+        <p style="padding: 0 10px;">Find the 4 hidden treasures!<br>(Don't touch Dudu ehhh)</p>
         <button id="start-btn" class="btn-main" style="visibility:hidden;" onclick="startHearts(); showStep(1)">Next &rarr;</button>
     </div>
 
+    <!-- Steps 1-18 Restore -->
     <div class="step" id="step1">
         <img src="https://media1.tenor.com/m/XNH6_4tsGtQAAAAd/bubu-dudu-suho-rolex.gif" class="photo-frame">
         <p>Selamat ulang tahun cantik!</p>
@@ -128,136 +173,59 @@
         <button class="btn-main" onclick="showStep(2)">Next &rarr;</button>
     </div>
 
-    <div class="step" id="step2">
-        <img src="https://media.tenor.com/QKSv39O825sAAAAj/bubu-dudu-sseeyall.gif" class="photo-frame">
-        <p>First of all a few things I would like to do soon as I meet you</p>
-        <button class="btn-main" onclick="showStep(3)">Next &rarr;</button>
-    </div>
-
-    <div class="step" id="step3">
-        <img src="https://media.tenor.com/0XYG8fpqZkQAAAAi/tkthao219-bubududu.gif" class="photo-frame">
-        <p>A good ride with you!</p>
-        <button class="btn-main" onclick="showStep(4)">Next &rarr;</button>
-    </div>
-
-    <div class="step" id="step4">
-        <img src="https://media.tenor.com/83zFQf-hwLMAAAAj/tkthao219-bubududu.gif" class="photo-frame">
-        <p>Go in a food tour and have yummy food !</p>
-        <button class="btn-main" onclick="showStep(5)">Next &rarr;</button>
-    </div>
-
-    <div class="step" id="step5">
-        <img src="https://media.tenor.com/0IKwuW91-ZQAAAAj/mimibubu.gif" class="photo-frame">
-        <p>Give you a lot of flowers 🌹🌹🌹</p>
-        <button class="btn-main" onclick="showStep(6)">Next &rarr;</button>
-    </div>
-
-    <div class="step" id="step6">
-        <img src="https://media.tenor.com/M6wcc7tZQn0AAAAj/cute-cat.gif" class="photo-frame">
-        <p>See my kiyowooo horangie 😊</p>
-        <button class="btn-main" onclick="showStep(7)">Next &rarr;</button>
-    </div>
-
-    <div class="step" id="step7">
-        <img src="https://media.tenor.com/fQyEJuIksBwAAAAj/bubu-dudu-sseeyall.gif" class="photo-frame">
-        <p>Wear something nice together!</p>
-        <button class="btn-main" onclick="showStep(8)">Next &rarr;</button>
-    </div>
-
-    <div class="step" id="step8">
-        <img src="https://media.tenor.com/dHSIL5HUotgAAAAj/hold-dudu-shake-hand.gif" class="photo-frame">
-        <p>Get you a nice Pandora bracelet or get rings to wear everyday!</p>
-        <button class="btn-main" onclick="showStep(9)">Next &rarr;</button>
-    </div>
-
-    <div class="step" id="step9">
-        <img src="https://media.tenor.com/QZZDyy7rOaYAAAAj/dudu-doing-nails-for-bubu-nails.gif" class="photo-frame">
-        <p>Do your make up!</p>
-        <button class="btn-main" onclick="showStep(10)">Next &rarr;</button>
-    </div>
-
-    <div class="step" id="step10">
-        <img src="https://media1.tenor.com/m/DVKbOOJfzyIAAAAC/milk-and-mocha-bear-workout.gif" class="photo-frame">
-        <p>Exercise, jogging with you!</p>
-        <button class="btn-main" onclick="showStep(11)">Next &rarr;</button>
-    </div>
-
-    <div class="step" id="step11">
-        <img src="https://media.tenor.com/-za3eHT4gOIAAAAi/milk-and-mocha-yeah.gif" class="photo-frame">
-        <p>A good SPA day!</p>
-        <button class="btn-main" onclick="showStep(12)">Next &rarr;</button>
-    </div>
-
-    <div class="step" id="step12">
-        <img src="https://i.imgur.com/dBtyaPt.gif" class="photo-frame">
-        <p>Let's hit the photobooth and take tons of these!</p>
-        <button class="btn-main" onclick="showStep(13)">Next &rarr;</button>
-    </div>
-
+    <div class="step" id="step2"><img src="https://media.tenor.com/QKSv39O825sAAAAj/bubu-dudu-sseeyall.gif" class="photo-frame"><p>First of all a few things I would like to do soon as I meet you</p><button class="btn-main" onclick="showStep(3)">Next &rarr;</button></div>
+    <div class="step" id="step3"><img src="https://media.tenor.com/0XYG8fpqZkQAAAAi/tkthao219-bubududu.gif" class="photo-frame"><p>A good ride with you!</p><button class="btn-main" onclick="showStep(4)">Next &rarr;</button></div>
+    <div class="step" id="step4"><img src="https://media.tenor.com/83zFQf-hwLMAAAAj/tkthao219-bubududu.gif" class="photo-frame"><p>Go in a food tour and have yummy food !</p><button class="btn-main" onclick="showStep(5)">Next &rarr;</button></div>
+    <div class="step" id="step5"><img src="https://media.tenor.com/0IKwuW91-ZQAAAAj/mimibubu.gif" class="photo-frame"><p>Give you a lot of flowers 🌹🌹🌹</p><button class="btn-main" onclick="showStep(6)">Next &rarr;</button></div>
+    <div class="step" id="step6"><img src="https://media.tenor.com/M6wcc7tZQn0AAAAj/cute-cat.gif" class="photo-frame"><p>See my kiyowooo horangie 😊</p><button class="btn-main" onclick="showStep(7)">Next &rarr;</button></div>
+    <div class="step" id="step7"><img src="https://media.tenor.com/fQyEJuIksBwAAAAj/bubu-dudu-sseeyall.gif" class="photo-frame"><p>Wear something nice together!</p><button class="btn-main" onclick="showStep(8)">Next &rarr;</button></div>
+    <div class="step" id="step8"><img src="https://media.tenor.com/dHSIL5HUotgAAAAj/hold-dudu-shake-hand.gif" class="photo-frame"><p>Get you a nice Pandora bracelet or get rings to wear everyday!</p><button class="btn-main" onclick="showStep(9)">Next &rarr;</button></div>
+    <div class="step" id="step9"><img src="https://media.tenor.com/QZZDyy7rOaYAAAAj/dudu-doing-nails-for-bubu-nails.gif" class="photo-frame"><p>Do your make up!</p><button class="btn-main" onclick="showStep(10)">Next &rarr;</button></div>
+    <div class="step" id="step10"><img src="https://media1.tenor.com/m/DVKbOOJfzyIAAAAC/milk-and-mocha-bear-workout.gif" class="photo-frame"><p>Exercise, jogging with you!</p><button class="btn-main" onclick="showStep(11)">Next &rarr;</button></div>
+    <div class="step" id="step11"><img src="https://media.tenor.com/-za3eHT4gOIAAAAi/milk-and-mocha-yeah.gif" class="photo-frame"><p>A good SPA day!</p><button class="btn-main" onclick="showStep(12)">Next &rarr;</button></div>
+    <div class="step" id="step12"><img src="https://i.imgur.com/dBtyaPt.gif" class="photo-frame"><p>Let's hit the photobooth and take tons of these!</p><button class="btn-main" onclick="showStep(13)">Next &rarr;</button></div>
     <div class="step" id="step13">
-        <div style="display: flex; gap: 10px; justify-content: center;">
+        <div style="display: flex; gap: 5px; justify-content: center; width: 100%;">
             <img src="https://media.tenor.com/Txdx1LFmpEUAAAAj/angel.gif" class="photo-frame" style="width: 45%;">
             <img src="https://media.tenor.com/AtfozB1d-OoAAAAj/mimibubu.gif" class="photo-frame" style="width: 45%;">
         </div>
-        <p>Take pics and record TikToks, why not? LOL</p>
-        <button class="btn-main" onclick="showStep(14)">Next &rarr;</button>
+        <p>Take pics and record TikToks!</p><button class="btn-main" onclick="showStep(14)">Next &rarr;</button>
     </div>
-
-    <div class="step" id="step14">
-        <img src="https://media1.tenor.com/m/ou8DIVHBRlcAAAAd/meetquack-quack.gif" class="photo-frame">
-        <p>Good movie nights with you!</p>
-        <button class="btn-main" onclick="showStep(15)">Next &rarr;</button>
-    </div>
-
+    <div class="step" id="step14"><img src="https://media1.tenor.com/m/ou8DIVHBRlcAAAAd/meetquack-quack.gif" class="photo-frame"><p>Good movie nights with you!</p><button class="btn-main" onclick="showStep(15)">Next &rarr;</button></div>
     <div class="step" id="step15">
-        <div style="display:flex; flex-direction:column; align-items:center;">
-            <img src="https://media.tenor.com/vhY5yLMC9PAAAAAi/milk-and.gif" class="dance-img-large">
-            <img src="https://media1.tenor.com/m/aE2hvZh4pSYAAAAd/guy-dnaces-to-sound-chimera-turkish-dance-meme.gif" class="dance-img-large">
-        </div>
-        <p>Dance with you and also show you the secret movements!</p>
-        <button class="btn-main" onclick="showStep(16)">Next &rarr;</button>
+        <img src="https://media.tenor.com/vhY5yLMC9PAAAAAi/milk-and.gif" class="dance-img-large">
+        <img src="https://media1.tenor.com/m/aE2hvZh4pSYAAAAd/guy-dnaces-to-sound-chimera-turkish-dance-meme.gif" class="dance-img-large">
+        <p>Dance with you!</p><button class="btn-main" onclick="showStep(16)">Next &rarr;</button>
     </div>
-
-    <div class="step" id="step16">
-        <img src="https://media1.tenor.com/m/aYRxn1mrYiMAAAAd/tenko-littlefox1515.gif" class="photo-frame">
-        <p>Replicate this! LOL</p>
-        <button class="btn-main" onclick="showStep(17)">Next &rarr;</button>
-    </div>
-
-    <div class="step" id="step17">
-        <img src="https://media1.tenor.com/m/J22-AYv7j0YAAAAd/milk-and-mocha-milk-mocha-bear.gif" class="photo-frame">
-        <p>And enjoy every single moment with you 💖</p>
-        <button class="btn-main" onclick="showStep(18)">Next &rarr;</button>
-    </div>
-
+    <div class="step" id="step16"><img src="https://media1.tenor.com/m/aYRxn1mrYiMAAAAd/tenko-littlefox1515.gif" class="photo-frame"><p>Replicate this! LOL</p><button class="btn-main" onclick="showStep(17)">Next &rarr;</button></div>
+    <div class="step" id="step17"><img src="https://media1.tenor.com/m/J22-AYv7j0YAAAAd/milk-and-mocha-milk-mocha-bear.gif" class="photo-frame"><p>And enjoy every moment 💖</p><button class="btn-main" onclick="showStep(18)">Next &rarr;</button></div>
     <div class="step" id="step18">
         <img src="https://media.tenor.com/47MEc3Ifl28AAAAi/bubu-dudu-bubu.gif" class="photo-frame">
-        <p>You make me so happy ❤️❤️❤️</p>
+        <p>You make me so happy ❤️</p>
         <img src="https://media.tenor.com/u8FqYvg4dxIAAAAi/transparent-milk-and-mocha.gif" class="photo-frame">
-        <p>Thank you for joining my life and I hope this last for eternity ❤️❤️❤️</p>
-        <button class="btn-main" onclick="showStep(19)">❤️❤️❤️ Click This ❤️❤️❤️</button>
+        <button class="btn-main" onclick="showStep(19)">Open Final Gift ❤️</button>
     </div>
 
     <div class="step" id="step19">
         <h1>Happy Birthday!</h1>
-        <div style="text-align: left; background: #fffdf5; padding: 20px; border-radius: 15px; border-left: 6px solid var(--accent-red); color: var(--text-gray); line-height: 1.6; font-weight: 700;">
+        <div class="letter-box">
             I just wanted to let you know how much I appreciate you every single day. You are so sweet and supportive. Like I’ve said before, if life is a path, I want to walk it with you. You’re the light of my life and my biggest motivation.<br><br>
             My routine has changed so much—I never thought I’d be the type to check my phone the second I wake up, but you changed that! You have no idea how much a simple heya brightens my day. Whether we are having silly talks, serious conversations, or just watching movies, I’m so happy. I’m still better at showing my feelings through actions than words, but I want to tell you sincerely: thank you for letting me be part of your life. I like you with all my heart.<br><br>
             I wish you the most beautiful birthday this May 4th. You deserve all the happiness, health, and success in the world. I can’t wait to be by your side to celebrate.<br><br>
 
             <div id="secret-reveal" onclick="revealSecret()">
-                <div id="reveal-text"><span style="font-size: 1.1rem;">Incoming Rizz message?... CLICK IT! 🤫🤫🤫</span></div>
-                <div id="hidden-content" style="display: none; color: var(--text-gray);">
-                    <div style="margin-bottom: 5px;">They say to make a wish when you blow out the candles, but looking at you, I think mine already came true.</div>
-                    <img src="https://media.tenor.com/wy2zHeWyf2gAAAAM/side-eye-dog-suspicious-look.gif" style="width: 100%; border-radius: 10px; display: block; margin: 0 auto;">
+                <div id="reveal-text"><span>TAP FOR RIZZ 🤫</span></div>
+                <div id="hidden-content" style="display: none;">
+                    <p style="font-size: 0.9rem;">They say to make a wish when you blow out the candles, but looking at you, I think mine already came true.</p>
+                    <img src="https://media.tenor.com/wy2zHeWyf2gAAAAM/side-eye-dog-suspicious-look.gif" style="width: 100%; border-radius: 10px;">
                     <div class="rizz-text">RIZZ????</div>
-                    <img src="https://media.tenor.com/t8MTJkCVTasAAAAi/idk.gif" style="width: 100%; border-radius: 10px; display: block; margin: 5px auto;">
+                    <img src="https://media.tenor.com/t8MTJkCVTasAAAAi/idk.gif" style="width: 60%; margin: 5px auto; display: block;">
                 </div>
             </div>
             I love you so much today, tomorrow and forever. ❤️❤️<br><br>
             VALEN
         </div>
-        <button class="btn-main" onclick="resetGame()">Home</button>
+        <button class="btn-main" style="width: 50%;" onclick="resetGame()">Home</button>
     </div>
 </div>
 
@@ -285,7 +253,7 @@
         const bear = document.getElementById('main-bear');
         const img1 = "https://media.tenor.com/vT9FIUfPKesAAAAj/sseeyall-bubu-dudu.gif";
         const img2 = "https://media1.tenor.com/m/BxibqUT9-I0AAAAd/dudu-flower.gif";
-        bear.src = (bear.src === img1) ? img2 : img1;
+        bear.src = (bear.src.includes("sseeyall")) ? img2 : img1;
     }
 
     function createHeart() {
@@ -303,7 +271,7 @@
     function setupTreasures() {
         const overlay = document.getElementById('treasure-overlay');
         overlay.innerHTML = ''; overlay.style.display = 'block'; foundCount = 0;
-        const positions = [{t:'15%', l:'10%'}, {t:'20%', r:'10%'}, {b:'20%', l:'15%'}, {b:'15%', r:'15%'}];
+        const positions = [{t:'10%', l:'10%'}, {t:'15%', r:'10%'}, {b:'15%', l:'10%'}, {b:'10%', r:'10%'}];
         const emojis = ['💖', '✨', '🌹', '🎈'];
         const compliments = ['You are the best💖', 'You are my world!', 'TE AMO MUCHOOOOO', 'Proud of you!'];
 
@@ -328,12 +296,10 @@
 
     function showStep(num) {
         document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-        document.getElementById('step' + num).classList.add('active');
+        const nextStep = document.getElementById('step' + num);
+        nextStep.classList.add('active');
         document.getElementById('treasure-overlay').style.display = (num === 0) ? 'block' : 'none';
-        
-        // Scroll to top of container when moving to next step
-        const stepDiv = document.getElementById('step' + num);
-        stepDiv.scrollTop = 0;
+        nextStep.scrollTop = 0;
     }
 
     function revealSecret() {
@@ -347,6 +313,7 @@
         stopHearts(); 
         document.getElementById('gift-overlay').style.opacity = '1'; 
         document.getElementById('gift-overlay').style.visibility = 'visible'; 
+        document.getElementById('gift-overlay').style.display = 'flex';
         showStep(0); 
     }
 </script>
