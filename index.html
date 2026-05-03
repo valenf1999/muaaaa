@@ -46,7 +46,7 @@
         .container {
             text-align: center; background: rgba(255, 255, 255, 0.95);
             padding: 20px; border-radius: 30px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
-            width: 90%; max-width: 450px; height: 600px; position: relative;
+            width: 90%; max-width: 450px; height: 620px; position: relative;
             backdrop-filter: blur(10px); z-index: 10; display: flex; flex-direction: column; justify-content: center;
         }
 
@@ -56,8 +56,8 @@
         .step.active { display: block; }
 
         .img-wrapper { width: 100%; max-width: 250px; margin: 0 auto 10px; cursor: pointer; }
-        .intro-img, .photo-frame { width: 100%; height: auto; max-height: 280px; object-fit: contain; border-radius: 15px; margin-bottom: 10px; }
-        .dance-img-large { width: 100%; max-height: 200px; border-radius: 15px; object-fit: contain; margin-bottom: 10px; }
+        .photo-frame { width: 100%; height: auto; max-height: 250px; object-fit: contain; border-radius: 15px; margin-bottom: 10px; }
+        .dance-img-large { width: 100%; max-height: 180px; border-radius: 15px; object-fit: contain; margin-bottom: 10px; }
 
         h1 { font-family: 'Dancing Script', cursive; color: var(--accent-red); font-size: 2.5rem; margin: 5px 0; }
         p { margin: 10px 0; line-height: 1.4; color: var(--text-gray); font-size: 1.1rem; }
@@ -114,14 +114,13 @@
 
     <div class="step active" id="step0">
         <div class="img-wrapper" onclick="toggleImage()">
-            <img id="main-bear" src="https://media.tenor.com/vT9FIUfPKesAAAAj/sseeyall-bubu-dudu.gif" class="intro-img">
+            <img id="main-bear" src="https://media.tenor.com/vT9FIUfPKesAAAAj/sseeyall-bubu-dudu.gif" class="photo-frame">
         </div>
         <h1>For You...</h1>
         <p>Find the 4 hidden treasures!(Don't touch Dudu ehhh)</p>
         <button id="start-btn" class="btn-main" style="visibility:hidden;" onclick="startHearts(); showStep(1)">Next &rarr;</button>
     </div>
 
-    <!-- Steps 1-18 (Simplified for space, use your original content here) -->
     <div class="step" id="step1">
         <img src="https://media1.tenor.com/m/XNH6_4tsGtQAAAAd/bubu-dudu-suho-rolex.gif" class="photo-frame">
         <p>Selamat ulang tahun cantik!</p>
@@ -129,7 +128,102 @@
         <button class="btn-main" onclick="showStep(2)">Next &rarr;</button>
     </div>
 
-    <!-- ... (Add Steps 2-17 back here exactly as you had them) ... -->
+    <div class="step" id="step2">
+        <img src="https://media.tenor.com/QKSv39O825sAAAAj/bubu-dudu-sseeyall.gif" class="photo-frame">
+        <p>First of all a few things I would like to do soon as I meet you</p>
+        <button class="btn-main" onclick="showStep(3)">Next &rarr;</button>
+    </div>
+
+    <div class="step" id="step3">
+        <img src="https://media.tenor.com/0XYG8fpqZkQAAAAi/tkthao219-bubududu.gif" class="photo-frame">
+        <p>A good ride with you!</p>
+        <button class="btn-main" onclick="showStep(4)">Next &rarr;</button>
+    </div>
+
+    <div class="step" id="step4">
+        <img src="https://media.tenor.com/83zFQf-hwLMAAAAj/tkthao219-bubududu.gif" class="photo-frame">
+        <p>Go in a food tour and have yummy food !</p>
+        <button class="btn-main" onclick="showStep(5)">Next &rarr;</button>
+    </div>
+
+    <div class="step" id="step5">
+        <img src="https://media.tenor.com/0IKwuW91-ZQAAAAj/mimibubu.gif" class="photo-frame">
+        <p>Give you a lot of flowers 🌹🌹🌹</p>
+        <button class="btn-main" onclick="showStep(6)">Next &rarr;</button>
+    </div>
+
+    <div class="step" id="step6">
+        <img src="https://media.tenor.com/M6wcc7tZQn0AAAAj/cute-cat.gif" class="photo-frame">
+        <p>See my kiyowooo horangie 😊</p>
+        <button class="btn-main" onclick="showStep(7)">Next &rarr;</button>
+    </div>
+
+    <div class="step" id="step7">
+        <img src="https://media.tenor.com/fQyEJuIksBwAAAAj/bubu-dudu-sseeyall.gif" class="photo-frame">
+        <p>Wear something nice together!</p>
+        <button class="btn-main" onclick="showStep(8)">Next &rarr;</button>
+    </div>
+
+    <div class="step" id="step8">
+        <img src="https://media.tenor.com/dHSIL5HUotgAAAAj/hold-dudu-shake-hand.gif" class="photo-frame">
+        <p>Get you a nice Pandora bracelet or get rings to wear everyday!</p>
+        <button class="btn-main" onclick="showStep(9)">Next &rarr;</button>
+    </div>
+
+    <div class="step" id="step9">
+        <img src="https://media.tenor.com/QZZDyy7rOaYAAAAj/dudu-doing-nails-for-bubu-nails.gif" class="photo-frame">
+        <p>Do your make up!</p>
+        <button class="btn-main" onclick="showStep(10)">Next &rarr;</button>
+    </div>
+
+    <div class="step" id="step10">
+        <img src="https://media1.tenor.com/m/DVKbOOJfzyIAAAAC/milk-and-mocha-bear-workout.gif" class="photo-frame">
+        <p>Exercise, jogging with you!</p>
+        <button class="btn-main" onclick="showStep(11)">Next &rarr;</button>
+    </div>
+
+    <div class="step" id="step11">
+        <img src="https://media.tenor.com/-za3eHT4gOIAAAAi/milk-and-mocha-yeah.gif" class="photo-frame">
+        <p>A good SPA day!</p>
+        <button class="btn-main" onclick="showStep(12)">Next &rarr;</button>
+    </div>
+
+    <div class="step" id="step12">
+        <img src="https://i.imgur.com/dBtyaPt.gif" class="photo-frame">
+        <p>Let's hit the photobooth and take tons of these!</p>
+        <button class="btn-main" onclick="showStep(13)">Next &rarr;</button>
+    </div>
+
+    <div class="step" id="step13">
+        <div style="display: flex; gap: 10px; justify-content: center;">
+            <img src="https://media.tenor.com/Txdx1LFmpEUAAAAj/angel.gif" class="photo-frame" style="width: 45%;">
+            <img src="https://media.tenor.com/AtfozB1d-OoAAAAj/mimibubu.gif" class="photo-frame" style="width: 45%;">
+        </div>
+        <p>Take pics and record TikToks, why not? LOL</p>
+        <button class="btn-main" onclick="showStep(14)">Next &rarr;</button>
+    </div>
+
+    <div class="step" id="step14">
+        <img src="https://media1.tenor.com/m/ou8DIVHBRlcAAAAd/meetquack-quack.gif" class="photo-frame">
+        <p>Good movie nights with you!</p>
+        <button class="btn-main" onclick="showStep(15)">Next &rarr;</button>
+    </div>
+
+    <div class="step" id="step15">
+        <div style="display:flex; flex-direction:column; align-items:center;">
+            <img src="https://media.tenor.com/vhY5yLMC9PAAAAAi/milk-and.gif" class="dance-img-large">
+            <img src="https://media1.tenor.com/m/aE2hvZh4pSYAAAAd/guy-dnaces-to-sound-chimera-turkish-dance-meme.gif" class="dance-img-large">
+        </div>
+        <p>Dance with you and also show you the secret movements!</p>
+        <button class="btn-main" onclick="showStep(16)">Next &rarr;</button>
+    </div>
+
+    <div class="step" id="step16">
+        <img src="https://media1.tenor.com/m/aYRxn1mrYiMAAAAd/tenko-littlefox1515.gif" class="photo-frame">
+        <p>Replicate this! LOL</p>
+        <button class="btn-main" onclick="showStep(17)">Next &rarr;</button>
+    </div>
+
     <div class="step" id="step17">
         <img src="https://media1.tenor.com/m/J22-AYv7j0YAAAAd/milk-and-mocha-milk-mocha-bear.gif" class="photo-frame">
         <p>And enjoy every single moment with you 💖</p>
@@ -236,6 +330,10 @@
         document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
         document.getElementById('step' + num).classList.add('active');
         document.getElementById('treasure-overlay').style.display = (num === 0) ? 'block' : 'none';
+        
+        // Scroll to top of container when moving to next step
+        const stepDiv = document.getElementById('step' + num);
+        stepDiv.scrollTop = 0;
     }
 
     function revealSecret() {
@@ -245,7 +343,12 @@
         document.getElementById('secret-reveal').style.border = 'none';
     }
 
-    function resetGame() { stopHearts(); document.getElementById('gift-overlay').style.opacity = '1'; document.getElementById('gift-overlay').style.visibility = 'visible'; showStep(0); }
+    function resetGame() { 
+        stopHearts(); 
+        document.getElementById('gift-overlay').style.opacity = '1'; 
+        document.getElementById('gift-overlay').style.visibility = 'visible'; 
+        showStep(0); 
+    }
 </script>
 </body>
 </html>
